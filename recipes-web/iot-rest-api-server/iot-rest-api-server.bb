@@ -24,6 +24,7 @@ SYSTEMD_SERVICE_${PN} = "iot-rest-api-server.socket"
 # Do not start the systemd service by default on boot
 SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
+USERADD_ERROR_DYNAMIC = "0"
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "-r restful"
 USERADD_PARAM_${PN} = "\
