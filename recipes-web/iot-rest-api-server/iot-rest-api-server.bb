@@ -73,7 +73,7 @@ do_compile () {
         x86_64) targetArch="x64"
             echo "targetArch = 64"
             ;;
-        arm) targetArch="arm"
+        arm|aarch64) targetArch="arm"
             ;;
         aarch64) targetArch="arm64"
             ;;
