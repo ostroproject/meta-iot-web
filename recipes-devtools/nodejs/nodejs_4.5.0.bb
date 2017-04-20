@@ -100,7 +100,11 @@ pkg_prerm_${PN} () {
 
 PACKAGES =+ "${PN}-npm"
 FILES_${PN}-npm = "${exec_prefix}/lib/node_modules ${bindir}/npm"
-RDEPENDS_${PN}-npm = "bash python-shell python-datetime python-subprocess python-textutils \
+
+PACKAGES =+ "${PN}-gyp"
+FILES_${PN}-gyp = "${exec_prefix}/lib/node_modules/npm/bin/node-gyp-bin \
+                   ${exec_prefix}/lib/node_modules/npm/node_modules/node-gyp"
+RDEPENDS_${PN}-gyp = "bash python-shell python-datetime python-subprocess python-textutils \
                       python-netclient python-ctypes python-misc python-compiler python-multiprocessing"
 
 PACKAGES =+ "${PN}-systemtap"
