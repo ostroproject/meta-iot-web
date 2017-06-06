@@ -1,7 +1,7 @@
 DESCRIPTION = "nodeJS Evented I/O for V8 JavaScript"
 HOMEPAGE = "http://nodejs.org"
 LICENSE = "MIT & BSD-2-Clause & BSD-3-Clause & ISC & CC-BY-3.0 & AFL-2.1 & Apache-2.0 & OpenSSL & Zlib & Artistic-2.0 & (BSD-3-Clause | GPLv2)"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=8e3c01094f0fcb889b13f0354e52f914"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=41a3a0ccf7f515cac3377389dd8faac8"
 
 DEPENDS = "openssl"
 DEPENDS_append_class-target = " nodejs-native"
@@ -16,10 +16,10 @@ SRC_URI = "http://nodejs.org/dist/v${PV}/node-v${PV}.tar.xz;name=node \
 SRC_URI_append_quark = "file://0001-nodejs-add-compile-flag-options-for-quark.patch"
 SRC_URI_append_intel-quark = "file://0001-nodejs-add-compile-flag-options-for-quark.patch"
 
-SRC_URI[node.md5sum] = "ac8e38c83f29e83d496d4bc4283487b0"
-SRC_URI[node.sha256sum] = "97b99d378c56802444208409568e2e66c46332897f06aead74d1ffbe733bd488"
-SRC_URI[node-headers.md5sum] = "6c93a4cb93e1ddc793061f148ee2b4e6"
-SRC_URI[node-headers.sha256sum] = "12ee966eef2abc928f6d7fcf9cfcf2913ef0e59ae07e2dcc20726246ab174fd8"
+SRC_URI[node.md5sum] = "301c9afa4848561173d1dbe017d03636"
+SRC_URI[node.sha256sum] = "02ba35391edea2b294c736489af01954ce6e6c39d318f4423ae6617c69ef0a51"
+SRC_URI[node-headers.md5sum] = "d68f6bf03812ddab676d7e2313c29413"
+SRC_URI[node-headers.sha256sum] = "a82caf153b7649656bce64dec40d136008babbef419e35b2a83242049de44b23"
 
 S = "${WORKDIR}/node-v${PV}"
 
@@ -46,8 +46,9 @@ do_configure () {
     GYP_DEFINES="${GYP_DEFINES}" export GYP_DEFINES
     # $TARGET_ARCH settings don't match --dest-cpu settings
    ./configure --prefix=${prefix} --without-snapshot --shared-openssl \
-               --dest-cpu="${@map_nodejs_arch(d.getVar('TARGET_ARCH', True), d)}" \
+               --dest-cpu="${@map_nodejs_arch(d.getVar('TARGET_ARCH'), d)}" \
                --dest-os=linux \
+               --without-intl \
                ${ARCHFLAGS}
 }
 
