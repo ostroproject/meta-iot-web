@@ -6,26 +6,21 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=82d0338d6e61d25fb51cabb1504c0df6"
 
 DEPENDS = "nodejs-native iotivity iotivity-node"
-RDEPENDS_${PN} += "iotivity node-mraa nodejs iotivity-node iptables"
+RDEPENDS_${PN} += "iotivity node-mraa nodejs iotivity-node"
 
 SRC_URI = "git://git@github.com/01org/SmartHome-Demo.git;protocol=https \
            file://0001-Remove-iotivity-node-dependency.patch \
            file://smarthome-gateway.service \
-           file://power-uart.service \
           "
 
-SRCREV = "78c3043f581135dcfa1e755def8d2081e086b751"
+SRCREV = "f59656556f2ac126bf9ebee155a380fe655caafd"
 PV = "0.1+git${SRCPV}"
 
 S = "${WORKDIR}/git/"
 
 inherit systemd
-SYSTEMD_SERVICE_${PN} = "smarthome-gateway.service \
-                         power-uart.service \
-                        "
+SYSTEMD_SERVICE_${PN} = "smarthome-gateway.service"
 INSANE_SKIP_${PN} += "ldflags staticdev"
-
-POWER_INSTALLATION_PATH = "/opt/smarthome-ocf-servers"
 
 do_compile () {
     # changing the home directory to the working directory, the .npmrc will be created in this directory
@@ -79,20 +74,12 @@ do_compile () {
 do_install () {
     install -d ${D}${libdir}/node_modules/smarthome-gateway/
 
-    install -m 0644 ${S}/first_server.js ${D}${libdir}/node_modules/smarthome-gateway/first_server.js
+    install -m 0644 ${S}/gateway/gateway-server.js ${D}${libdir}/node_modules/smarthome-gateway/gateway-server.js
     install -m 0644 ${S}/package.json ${D}${libdir}/node_modules/smarthome-gateway/package.json
 
-    cp -r ${S}/rules-engine/ ${D}${libdir}/node_modules/smarthome-gateway/
-    cp -r ${S}/gateway-webui/ ${D}${libdir}/node_modules/smarthome-gateway/
+    cp -r ${S}/gateway/rules-engine/ ${D}${libdir}/node_modules/smarthome-gateway/
+    cp -r ${S}/gateway/webui/ ${D}${libdir}/node_modules/smarthome-gateway/
     cp -r ${S}/node_modules/ ${D}${libdir}/node_modules/smarthome-gateway/
-
-    # Install SmartHome Power sensor
-    install -d ${D}${POWER_INSTALLATION_PATH}
-    install -m 0664 ${S}/ocf-servers/js-servers/power-uart.js ${D}${POWER_INSTALLATION_PATH}/power-uart.js
-
-    # Install SmartHome Power service script
-    install -d ${D}/${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/power-uart.service ${D}/${systemd_unitdir}/system/
 
     # Install SmartHome gateway service script
     install -d ${D}/${systemd_unitdir}/system
@@ -100,7 +87,6 @@ do_install () {
 }
 
 FILES_${PN} = "${libdir}/node_modules/smarthome-gateway/ \
-               ${POWER_INSTALLATION_PATH} \
                ${systemd_unitdir}/system/ \
               "
 
