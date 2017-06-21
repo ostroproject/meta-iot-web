@@ -2,6 +2,7 @@ DESCRIPTION = "nodeJS Evented I/O for V8 JavaScript"
 HOMEPAGE = "http://nodejs.org"
 LICENSE = "MIT & BSD-2-Clause & BSD-3-Clause & ISC & CC-BY-3.0 & AFL-2.1 & Apache-2.0 & OpenSSL & Zlib & Artistic-2.0 & (BSD-3-Clause | GPLv2)"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=41a3a0ccf7f515cac3377389dd8faac8"
+PR = "r1"
 
 DEPENDS = "openssl"
 DEPENDS_append_class-target = " nodejs-native"
@@ -46,7 +47,7 @@ do_configure () {
     GYP_DEFINES="${GYP_DEFINES}" export GYP_DEFINES
     # $TARGET_ARCH settings don't match --dest-cpu settings
    ./configure --prefix=${prefix} --without-snapshot --shared-openssl \
-               --dest-cpu="${@map_nodejs_arch(d.getVar('TARGET_ARCH'), d)}" \
+               --dest-cpu="${@map_nodejs_arch(d.getVar('TARGET_ARCH', True), d)}" \
                --dest-os=linux \
                --without-intl \
                ${ARCHFLAGS}
