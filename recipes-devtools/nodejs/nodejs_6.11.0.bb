@@ -13,6 +13,7 @@ COMPATIBLE_MACHINE_mips64 = "(!.*mips64).*"
 
 SRC_URI = "http://nodejs.org/dist/v${PV}/node-v${PV}.tar.xz;name=node \
            http://nodejs.org/dist/v${PV}/node-v${PV}-headers.tar.gz;name=node-headers;unpack=false \
+           file://0002_fix_v8_build_errors_with_gcc7.patch \
 "
 SRC_URI_append_quark = "file://0001-nodejs-add-compile-flag-options-for-quark.patch"
 SRC_URI_append_intel-quark = "file://0001-nodejs-add-compile-flag-options-for-quark.patch"
